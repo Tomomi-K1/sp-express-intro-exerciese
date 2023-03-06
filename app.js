@@ -23,14 +23,36 @@ function mean(arr){
 }
 
 function median(arr){
+    let SortedArr=arr.sort((a,b)=>{return a-b})
     let midpoint
-        if (arr.length % 2 != 0){
-            midpoint = arr[Math.floor(arr.length/2)]
+        if (SortedArr.length % 2 != 0){
+            midpoint = SortedArr[Math.floor(SortedArr.length/2)]
         } else{
-            midpoint = (arr[arr.length/2-1]+arr[arr.length/2])/2
+            midpoint = (SortedArr[SortedArr.length/2-1]+SortedArr[SortedArr.length/2])/2
         }
     return midpoint
 }
+
+
+function mode(arr){
+    let obj={};
+    arr.forEach(a=>{
+        if(obj[a] === undefined){
+            return obj[a] = 1;
+        } else {
+            return obj[a] += 1;
+        }
+    })
+        
+    let keys =Object.keys(obj)
+    let values =Object.values(obj);
+
+    let max =Math.max(...values);
+    return keys.filter(a=>{
+        return obj[a] == max
+    })
+
+};
 
 
 
@@ -68,26 +90,6 @@ app.get('/median', (req, res, next)=>{
 
 })
 
-function mode(arr){
-    let obj={};
-    arr.forEach(a=>{
-        if(obj[a] === undefined){
-            return obj[a] = 1;
-        } else {
-            return obj[a] += 1;
-        }
-    })
-        
-    let keys =Object.keys(obj)
-    let values =Object.values(obj);
-
-    let max =Math.max(...values);
-    return keys.filter(a=>{
-        return obj[a] == max;
-    })
-
-};
-
 
 app.get('/mode', (req, res, next)=>{
     try{
@@ -115,27 +117,9 @@ app.use((error, req, res, next)=>{
 })
 
 
-
-
-
 app.listen(3000, function(){
     console.log('App on port 3000');
 })
 
 
-        // let obj={};
-        // numArray.forEach(a=>{
-        //     if(obj[a] === undefined){
-        //         return obj[a] = 1;
-        //     } else {
-        //         return obj[a] += 1;
-        //     }
-        // })
-        
-        // let keys =Object.keys(obj)
-        // let values =Object.values(obj);
-
-        // let max =Math.max(...values);
-        // let mode = keys.filter(a=>{
-        //     return obj[a] == max;
-        // })
+module.exports = {mean, median, mode}
